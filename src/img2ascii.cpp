@@ -4,33 +4,33 @@
 
 static constexpr int OUTPUT_WIDTH = 600;
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
     if (argc < 2) {
-        std::cerr << "Usage: " << argv[0] << " <image file>" << '\n';
+        std::cerr << "Usage: " << argv[0] << " FILE" << '\n';
         return 1;
     }
 
-    const std::filesystem::path imagePath(argv[1]);
+    const std::filesystem::path image_path(argv[1]);
 
-    if (!std::filesystem::exists(imagePath)) {
-        std::cerr << "File not found: " << imagePath << '\n';
+    if (!std::filesystem::exists(image_path)) {
+        std::cerr << "File not found: " << image_path << '\n';
         return 1;
     }
 
     int width, height, channels;
-    unsigned char *img = stbi_load(imagePath.c_str(), &width, &height, &channels, 0);
+    unsigned char* img = stbi_load(image_path.c_str(), &width, &height, &channels, 0);
 
     if (img == nullptr) {
         std::cout << "Error in loading the image" << '\n';
         return 1;
     }
 
-    const double aspectRatio = static_cast<double>(height) / width;
-    const int outputHeight = static_cast<int>(OUTPUT_WIDTH * aspectRatio * 0.45);
+    const double aspect_ratio = static_cast<double>(height) / width;
+    const int output_height = static_cast<int>(OUTPUT_WIDTH * aspect_ratio * 0.45);
 
-    const auto asciiArt = AsciiArt::imageToAscii(img, width, height, channels, OUTPUT_WIDTH, outputHeight);
+    const auto ascii_art = AsciiArt::image_to_ascii(img, width, height, channels, OUTPUT_WIDTH, output_height);
 
-    AsciiArt::printAsciiFrame(asciiArt, OUTPUT_WIDTH, outputHeight);
+    print_ascii_frame(ascii_art, OUTPUT_WIDTH, output_height);
 
     stbi_image_free(img);
 
