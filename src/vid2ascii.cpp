@@ -19,17 +19,17 @@ int main(int argc, char** argv) {
 
     if (argc < 2) {
         std::cerr << "Not enough arguments" << '\n';
-        utils::cmd::print_help(argv[0]);
+        utils::cmd::print_help(utils::cmd::peek(argc, argv));
         return 1;
     }
 
-    utils::cmd::shift(argc, argv); // Skip program name
+    const auto program_name = utils::cmd::shift(argc, argv); // Skip program name
 
     while (argc > 0) {
         const std::string_view arg = utils::cmd::shift(argc, argv);
 
         if (arg == "-h" || arg == "--help") {
-            utils::cmd::print_help(argv[0]);
+            utils::cmd::print_help(program_name);
             return 0;
         }
         if (arg == "--max-fps") {
